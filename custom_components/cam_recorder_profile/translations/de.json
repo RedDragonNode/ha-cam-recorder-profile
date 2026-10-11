@@ -1,0 +1,172 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Cam Recorder Profile",
+        "description": "Verbindung zum Add-on 'Cam Recorder'. Alles lässt sich später unter 'Konfigurieren' ändern. {anzahl} Cams/Profile aus Spielpartner Aufnahme können übernommen werden (die IDs bleiben gleich).",
+        "data": {
+          "recorder_url": "Recorder: Adresse des Add-ons (http://local-cam-recorder:8099)",
+          "recorder_schluessel": "Recorder: Schlüssel (api_key des Add-ons)",
+          "uebernehmen": "Cams und Profile aus Spielpartner Aufnahme übernehmen"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Die Integration ist bereits eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Einstellungen",
+        "data": {
+          "recorder_url": "Recorder: Adresse des Add-ons (http://local-cam-recorder:8099)",
+          "recorder_schluessel": "Recorder: Schlüssel (api_key des Add-ons)"
+        }
+      }
+    }
+  },
+  "config_subentries": {
+    "cam": {
+      "initiate_flow": {
+        "user": "Cam hinzufügen",
+        "reconfigure": "Cam bearbeiten"
+      },
+      "entry_type": "Cam",
+      "step": {
+        "user": {
+          "title": "Neue Cam",
+          "data": {
+            "name": "Name (z.B. Fuchsblick)",
+            "kuerzel": "Kürzel (z.B. FB)",
+            "aufnehmen": "Recorder: diese Cam aufnehmen",
+            "stream_entity": "Recorder: Stream-Quelle über eine HA-Kamera (z.B. Reolink-Kamera)",
+            "rtsp_url": "Recorder: oder direkte RTSP-Adresse (hat Vorrang)"
+          },
+          "description": "Name, Kürzel und Stream-Quelle der Cam. Die Cam steht danach auch in Spielpartner Aufnahme zur Verfügung."
+        },
+        "reconfigure": {
+          "title": "Cam bearbeiten",
+          "data": {
+            "kuerzel": "Kürzel",
+            "aufnehmen": "Recorder: diese Cam aufnehmen",
+            "stream_entity": "Recorder: Stream-Quelle über eine HA-Kamera (z.B. Reolink-Kamera)",
+            "rtsp_url": "Recorder: oder direkte RTSP-Adresse (hat Vorrang)"
+          }
+        }
+      },
+      "error": {
+        "already_configured": "Diese Cam gibt es schon.",
+        "kuerzel_required": "Bitte ein Kürzel angeben."
+      },
+      "abort": {
+        "reconfigure_successful": "Gespeichert."
+      }
+    },
+    "profil": {
+      "initiate_flow": {
+        "user": "Aufnahme-Profil hinzufügen",
+        "reconfigure": "Aufnahme-Profil bearbeiten"
+      },
+      "entry_type": "Aufnahme-Profil",
+      "step": {
+        "user": {
+          "title": "Neues Aufnahme-Profil",
+          "description": "Ein Profil legt fest, in welchen Ordner welche Cams aufnehmen und wann. Eine Cam darf in mehreren Profilen stehen, nimmt aber nie in zwei gleichzeitig auf (wer zuerst kommt). Ohne Auslöser und ohne Zeitfenster startet das Profil nur von Hand. Nur Zeitfenster/Sonne: nimmt in dieser Zeit durchgehend auf. Mit Auslöser (z.B. Bewegungsmelder): nimmt auf, solange einer 'an' ist. Im Dateiname-Muster stehen cam, kuerzel und profil in geschweiften Klammern für Name, Kürzel und Profil; dazu Datum/Zeit mit %CCYY %MM %DD %hh %mm %ss. Im nächsten Schritt wählst du den Unterordner.",
+          "data": {
+            "name": "Name (z.B. Treppe)",
+            "cams": "Cams",
+            "dateimuster": "Dateiname-Muster",
+            "ausloeser": "Auslöser (Bewegung/Schalter/Sensor, 'an' = aufnehmen) - leer = kein Auslöser",
+            "nachlauf_sekunden": "Nachlauf nach 'aus' in Sekunden",
+            "max_dauer_minuten": "Höchstdauer pro Aufnahme in Minuten (0 = unbegrenzt)",
+            "zeit_von": "Nur von (Uhrzeit)",
+            "zeit_bis": "Nur bis (Uhrzeit)",
+            "sonne": "Sonne",
+            "hauptordner": "Hauptordner (Auswahl oder eigener Name)"
+          }
+        },
+        "reconfigure": {
+          "title": "Aufnahme-Profil bearbeiten",
+          "description": "Ein Profil legt fest, in welchen Ordner welche Cams aufnehmen und wann. Eine Cam darf in mehreren Profilen stehen, nimmt aber nie in zwei gleichzeitig auf (wer zuerst kommt). Ohne Auslöser und ohne Zeitfenster startet das Profil nur von Hand. Nur Zeitfenster/Sonne: nimmt in dieser Zeit durchgehend auf. Mit Auslöser (z.B. Bewegungsmelder): nimmt auf, solange einer 'an' ist. Im Dateiname-Muster stehen cam, kuerzel und profil in geschweiften Klammern für Name, Kürzel und Profil; dazu Datum/Zeit mit %CCYY %MM %DD %hh %mm %ss. Im nächsten Schritt wählst du den Unterordner.",
+          "data": {
+            "name": "Name (z.B. Treppe)",
+            "cams": "Cams",
+            "dateimuster": "Dateiname-Muster",
+            "ausloeser": "Auslöser (Bewegung/Schalter/Sensor, 'an' = aufnehmen) - leer = kein Auslöser",
+            "nachlauf_sekunden": "Nachlauf nach 'aus' in Sekunden",
+            "max_dauer_minuten": "Höchstdauer pro Aufnahme in Minuten (0 = unbegrenzt)",
+            "zeit_von": "Nur von (Uhrzeit)",
+            "zeit_bis": "Nur bis (Uhrzeit)",
+            "sonne": "Sonne",
+            "hauptordner": "Hauptordner (Auswahl oder eigener Name)"
+          }
+        },
+        "unterordner": {
+          "title": "Unterordner",
+          "description": "Unterordner in {hauptordner} (leer = direkt im Hauptordner; eigener Name möglich, auch mit / für mehrere Ebenen).",
+          "data": {
+            "unterordner": "Unterordner"
+          }
+        }
+      },
+      "error": {
+        "already_configured": "Diesen Namen gibt es schon (oder er ist leer).",
+        "folder_required": "Bitte einen Zielordner angeben.",
+        "cams_required": "Bitte mindestens eine Cam wählen.",
+        "time_both": "Bitte 'von' und 'bis' zusammen angeben."
+      },
+      "abort": {
+        "reconfigure_successful": "Gespeichert."
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "recorder_frei": {
+        "name": "Recorder: freier Speicher"
+      }
+    },
+    "binary_sensor": {
+      "recorder_online": {
+        "name": "Recorder erreichbar"
+      },
+      "cam_aufnahme": {
+        "name": "Aufnahme"
+      },
+      "profil_aufnahme": {
+        "name": "Aufnahme"
+      }
+    }
+  },
+  "services": {
+    "profil_starten": {
+      "name": "Profil starten",
+      "description": "Startet ein Aufnahme-Profil von Hand (läuft bis 'Profil stoppen').",
+      "fields": {
+        "profil": {
+          "name": "Profil",
+          "description": "Name des Profils"
+        }
+      }
+    },
+    "profil_stoppen": {
+      "name": "Profil stoppen",
+      "description": "Beendet ein Aufnahme-Profil.",
+      "fields": {
+        "profil": {
+          "name": "Profil",
+          "description": "Name des Profils"
+        }
+      }
+    },
+    "cams_uebernehmen": {
+      "name": "Cams und Profile übernehmen",
+      "description": "Übernimmt fehlende Cams und Profile aus Spielpartner Aufnahme (gleiche IDs). Bereits vorhandene bleiben unverändert.",
+      "fields": {}
+    }
+  }
+}

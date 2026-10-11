@@ -1,0 +1,15 @@
+profil_starten:
+  fields:
+    profil:
+      required: true
+      example: Treppe
+      selector:
+        text:
+profil_stoppen:
+  fields:
+    profil:
+      required: true
+      example: Treppe
+      selector:
+        text:
+cams_uebernehmen:

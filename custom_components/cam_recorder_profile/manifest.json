@@ -1,0 +1,13 @@
+{
+  "domain": "cam_recorder_profile",
+  "name": "Cam Recorder Profile",
+  "codeowners": ["@RedDragonNode"],
+  "config_flow": true,
+  "documentation": "https://github.com/RedDragonNode/ha-cam-recorder-profile",
+  "integration_type": "service",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/RedDragonNode/ha-cam-recorder-profile/issues",
+  "requirements": [],
+  "after_dependencies": ["camera"],
+  "version": "0.1.0"
+}
