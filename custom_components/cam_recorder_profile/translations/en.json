@@ -72,7 +72,7 @@
       "step": {
         "user": {
           "title": "New recording profile",
-          "description": "A profile defines which cams record into which folder and when. A cam may be in several profiles but never records in two at once (first come, first served). Without trigger and time window the profile starts manually only. Time window/sun only: records continuously in that window. With triggers (e.g. motion sensor): records while any is 'on'. In the file name pattern, cam, kuerzel and profil in curly braces stand for name, short code and profile; plus date/time with %CCYY %MM %DD %hh %mm %ss. The next step picks the subfolder.",
+          "description": "A profile defines which cams record into which folder and when. A cam may be in several profiles but never records in two at once (first come, first served). Without trigger and time window the profile starts manually only. Time window/sun only: records continuously in that window. With triggers (e.g. motion sensor): records while any is 'on'. In the file name pattern, cam, kuerzel and profil in curly braces stand for name, short code and profile; plus date/time with %CCYY %MM %DD %hh %mm %ss.",
           "data": {
             "name": "Name (e.g. Stairs)",
             "cams": "Cams",
@@ -83,12 +83,12 @@
             "zeit_von": "Only from (time)",
             "zeit_bis": "Only until (time)",
             "sonne": "Sun",
-            "hauptordner": "Main folder (pick or type a new one)"
+            "ordner": "Target folder (main or main/subfolder; pick or type your own)"
           }
         },
         "reconfigure": {
           "title": "Edit recording profile",
-          "description": "A profile defines which cams record into which folder and when. A cam may be in several profiles but never records in two at once (first come, first served). Without trigger and time window the profile starts manually only. Time window/sun only: records continuously in that window. With triggers (e.g. motion sensor): records while any is 'on'. In the file name pattern, cam, kuerzel and profil in curly braces stand for name, short code and profile; plus date/time with %CCYY %MM %DD %hh %mm %ss. The next step picks the subfolder.",
+          "description": "A profile defines which cams record into which folder and when. A cam may be in several profiles but never records in two at once (first come, first served). Without trigger and time window the profile starts manually only. Time window/sun only: records continuously in that window. With triggers (e.g. motion sensor): records while any is 'on'. In the file name pattern, cam, kuerzel and profil in curly braces stand for name, short code and profile; plus date/time with %CCYY %MM %DD %hh %mm %ss.",
           "data": {
             "name": "Name (e.g. Stairs)",
             "cams": "Cams",
@@ -99,14 +99,7 @@
             "zeit_von": "Only from (time)",
             "zeit_bis": "Only until (time)",
             "sonne": "Sun",
-            "hauptordner": "Main folder (pick or type a new one)"
-          }
-        },
-        "unterordner": {
-          "title": "Subfolder",
-          "description": "Subfolder inside {hauptordner} (empty = directly in the main folder; you can type your own, use / for more levels).",
-          "data": {
-            "unterordner": "Subfolder"
+            "ordner": "Target folder (main or main/subfolder; pick or type your own)"
           }
         }
       },

@@ -72,7 +72,7 @@
       "step": {
         "user": {
           "title": "Neues Aufnahme-Profil",
-          "description": "Ein Profil legt fest, in welchen Ordner welche Cams aufnehmen und wann. Eine Cam darf in mehreren Profilen stehen, nimmt aber nie in zwei gleichzeitig auf (wer zuerst kommt). Ohne Auslöser und ohne Zeitfenster startet das Profil nur von Hand. Nur Zeitfenster/Sonne: nimmt in dieser Zeit durchgehend auf. Mit Auslöser (z.B. Bewegungsmelder): nimmt auf, solange einer 'an' ist. Im Dateiname-Muster stehen cam, kuerzel und profil in geschweiften Klammern für Name, Kürzel und Profil; dazu Datum/Zeit mit %CCYY %MM %DD %hh %mm %ss. Im nächsten Schritt wählst du den Unterordner.",
+          "description": "Ein Profil legt fest, in welchen Ordner welche Cams aufnehmen und wann. Eine Cam darf in mehreren Profilen stehen, nimmt aber nie in zwei gleichzeitig auf (wer zuerst kommt). Ohne Auslöser und ohne Zeitfenster startet das Profil nur von Hand. Nur Zeitfenster/Sonne: nimmt in dieser Zeit durchgehend auf. Mit Auslöser (z.B. Bewegungsmelder): nimmt auf, solange einer 'an' ist. Im Dateiname-Muster stehen cam, kuerzel und profil in geschweiften Klammern für Name, Kürzel und Profil; dazu Datum/Zeit mit %CCYY %MM %DD %hh %mm %ss.",
           "data": {
             "name": "Name (z.B. Treppe)",
             "cams": "Cams",
@@ -83,12 +83,12 @@
             "zeit_von": "Nur von (Uhrzeit)",
             "zeit_bis": "Nur bis (Uhrzeit)",
             "sonne": "Sonne",
-            "hauptordner": "Hauptordner (Auswahl oder eigener Name)"
+            "ordner": "Zielordner (Hauptordner oder Hauptordner/Unterordner; Auswahl oder eigener Name)"
           }
         },
         "reconfigure": {
           "title": "Aufnahme-Profil bearbeiten",
-          "description": "Ein Profil legt fest, in welchen Ordner welche Cams aufnehmen und wann. Eine Cam darf in mehreren Profilen stehen, nimmt aber nie in zwei gleichzeitig auf (wer zuerst kommt). Ohne Auslöser und ohne Zeitfenster startet das Profil nur von Hand. Nur Zeitfenster/Sonne: nimmt in dieser Zeit durchgehend auf. Mit Auslöser (z.B. Bewegungsmelder): nimmt auf, solange einer 'an' ist. Im Dateiname-Muster stehen cam, kuerzel und profil in geschweiften Klammern für Name, Kürzel und Profil; dazu Datum/Zeit mit %CCYY %MM %DD %hh %mm %ss. Im nächsten Schritt wählst du den Unterordner.",
+          "description": "Ein Profil legt fest, in welchen Ordner welche Cams aufnehmen und wann. Eine Cam darf in mehreren Profilen stehen, nimmt aber nie in zwei gleichzeitig auf (wer zuerst kommt). Ohne Auslöser und ohne Zeitfenster startet das Profil nur von Hand. Nur Zeitfenster/Sonne: nimmt in dieser Zeit durchgehend auf. Mit Auslöser (z.B. Bewegungsmelder): nimmt auf, solange einer 'an' ist. Im Dateiname-Muster stehen cam, kuerzel und profil in geschweiften Klammern für Name, Kürzel und Profil; dazu Datum/Zeit mit %CCYY %MM %DD %hh %mm %ss.",
           "data": {
             "name": "Name (z.B. Treppe)",
             "cams": "Cams",
@@ -99,14 +99,7 @@
             "zeit_von": "Nur von (Uhrzeit)",
             "zeit_bis": "Nur bis (Uhrzeit)",
             "sonne": "Sonne",
-            "hauptordner": "Hauptordner (Auswahl oder eigener Name)"
-          }
-        },
-        "unterordner": {
-          "title": "Unterordner",
-          "description": "Unterordner in {hauptordner} (leer = direkt im Hauptordner; eigener Name möglich, auch mit / für mehrere Ebenen).",
-          "data": {
-            "unterordner": "Unterordner"
+            "ordner": "Zielordner (Hauptordner oder Hauptordner/Unterordner; Auswahl oder eigener Name)"
           }
         }
       },

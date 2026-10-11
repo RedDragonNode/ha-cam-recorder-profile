@@ -263,14 +263,15 @@ async def test_cam_subentry_flow(hass: HomeAssistant) -> None:
 async def test_profile_subentry_flow(hass: HomeAssistant) -> None:
     entry = await _setup(hass)
     flow = await hass.config_entries.subentries.async_init((entry.entry_id, "profil"), context={"source": "user"})
-    bad = await hass.config_entries.subentries.async_configure(flow["flow_id"], {"name": "T", "hauptordner": "A", "cams": []})
+    bad = await hass.config_entries.subentries.async_configure(flow["flow_id"], {"name": "T", "ordner": "A", "cams": []})
     assert bad["errors"] == {"cams": "cams_required"}
-    step2 = await hass.config_entries.subentries.async_configure(
+    opts = next(k for k in flow["data_schema"].schema if str(k) == "ordner")
+    values = [o["value"] for o in flow["data_schema"].schema[opts].config["options"]]
+    assert values == ["Der_Fuchsbau", "Ueberwachung", "Ueberwachung/Treppe"]  # Unterordner stehen mit in der Auswahl
+    ok = await hass.config_entries.subentries.async_configure(
         flow["flow_id"],
-        {"name": "Treppe", "hauptordner": "Ueberwachung", "cams": ["cam_Fuchsblick"], "zeit_von": "22:00:00", "zeit_bis": "06:00:00"},
+        {"name": "Treppe", "ordner": "Ueberwachung/Treppe", "cams": ["cam_Fuchsblick"], "zeit_von": "22:00:00", "zeit_bis": "06:00:00"},
     )
-    assert step2["step_id"] == "unterordner"
-    ok = await hass.config_entries.subentries.async_configure(flow["flow_id"], {"unterordner": "Treppe"})
     assert ok["type"] == "create_entry"
     sub = next(s for s in entry.subentries.values() if s.subentry_type == "profil")
     assert sub.data["ordner"] == "Ueberwachung/Treppe" and sub.data["dateimuster"].startswith("{cam}")

@@ -29,11 +29,9 @@ from .const import (
     CONF_PROF_CAMS,
     CONF_PROF_FOLDER,
     CONF_PROF_FROM,
-    CONF_PROF_MAIN,
     CONF_PROF_MAX,
     CONF_PROF_NAME,
     CONF_PROF_PATTERN,
-    CONF_PROF_SUB,
     CONF_PROF_SUN,
     CONF_PROF_TO,
     CONF_PROF_TRIGGERS,
@@ -216,6 +214,14 @@ class ProfileSubentryFlow(ConfigSubentryFlow):
         except RecorderError:
             return []
 
+    async def _folder_options(self) -> list[str]:
+        """Alle Ordner bis zwei Ebenen ('Haupt' und 'Haupt/Unter') als eine Auswahlliste."""
+        out: list[str] = []
+        for main in await self._dirs([]):
+            out.append(main)
+            out.extend(f"{main}/{sub}" for sub in await self._dirs([main]))
+        return out
+
     def _schema(self, main_options: list[str]) -> vol.Schema:
         cams = [
             selector.SelectOptionDict(value=sid, label=s.data[CONF_CAM_NAME])
@@ -225,7 +231,7 @@ class ProfileSubentryFlow(ConfigSubentryFlow):
         return vol.Schema(
             {
                 vol.Required(CONF_PROF_NAME): _TEXT,
-                vol.Required(CONF_PROF_MAIN): _folder_select(main_options),
+                vol.Required(CONF_PROF_FOLDER): _folder_select(main_options),
                 vol.Required(CONF_PROF_CAMS): selector.SelectSelector(
                     selector.SelectSelectorConfig(options=cams, multiple=True, mode=selector.SelectSelectorMode.DROPDOWN)
                 ),
@@ -254,7 +260,7 @@ class ProfileSubentryFlow(ConfigSubentryFlow):
 
     @staticmethod
     def _data(user_input: dict[str, Any]) -> dict[str, Any]:
-        main = logic.split_path(user_input.get(CONF_PROF_MAIN, ""))
+        main = logic.split_path(user_input.get(CONF_PROF_FOLDER, ""))
         return {
             CONF_PROF_NAME: user_input[CONF_PROF_NAME].strip(),
             CONF_PROF_FOLDER: "/".join(main),
@@ -278,7 +284,7 @@ class ProfileSubentryFlow(ConfigSubentryFlow):
         if not data[CONF_PROF_NAME] or logic.norm(data[CONF_PROF_NAME]) in taken:
             errors[CONF_PROF_NAME] = "already_configured"
         if not data[CONF_PROF_FOLDER]:
-            errors[CONF_PROF_MAIN] = "folder_required"
+            errors[CONF_PROF_FOLDER] = "folder_required"
         if not data[CONF_PROF_CAMS]:
             errors[CONF_PROF_CAMS] = "cams_required"
         if bool(data[CONF_PROF_FROM]) != bool(data[CONF_PROF_TO]):
@@ -291,11 +297,14 @@ class ProfileSubentryFlow(ConfigSubentryFlow):
             data = self._data(user_input)
             errors = self._errors(data, self._own)
             if not errors:
-                self._pending = data
-                return await self.async_step_unterordner()
-        main_options = await self._dirs([])
+                if self._own is None:
+                    return self.async_create_entry(title=data[CONF_PROF_NAME], data=data, unique_id=logic.norm(data[CONF_PROF_NAME]))
+                return self.async_update_and_abort(
+                    self._get_entry(), self._get_reconfigure_subentry(), title=data[CONF_PROF_NAME], data=data
+                )
+        options = await self._folder_options()
         return self.async_show_form(
-            step_id=step_id, data_schema=_suggest(self._schema(main_options), user_input or current), errors=errors
+            step_id=step_id, data_schema=_suggest(self._schema(options), user_input or current), errors=errors
         )
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None) -> SubentryFlowResult:
@@ -305,25 +314,4 @@ class ProfileSubentryFlow(ConfigSubentryFlow):
     async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> SubentryFlowResult:
         sub = self._get_reconfigure_subentry()
         self._own = sub.subentry_id
-        parts = logic.split_path(sub.data.get(CONF_PROF_FOLDER, ""))
-        current = {**sub.data, CONF_PROF_MAIN: parts[0] if parts else ""}
-        return await self._step_one("reconfigure", user_input, current)
-
-    async def async_step_unterordner(self, user_input: dict[str, Any] | None = None) -> SubentryFlowResult:
-        main = logic.split_path(self._pending[CONF_PROF_FOLDER])
-        if user_input is not None:
-            sub = logic.split_path(user_input.get(CONF_PROF_SUB, ""))
-            data = {**self._pending, CONF_PROF_FOLDER: "/".join([*main, *sub])}
-            if self._own is None:
-                return self.async_create_entry(title=data[CONF_PROF_NAME], data=data, unique_id=logic.norm(data[CONF_PROF_NAME]))
-            return self.async_update_and_abort(
-                self._get_entry(), self._get_reconfigure_subentry(), title=data[CONF_PROF_NAME], data=data
-            )
-        existing = logic.split_path(self._get_reconfigure_subentry().data.get(CONF_PROF_FOLDER, "")) if self._own else []
-        suggested = "/".join(existing[1:]) if existing[:1] == main[:1] else ""
-        schema = vol.Schema({vol.Optional(CONF_PROF_SUB): _folder_select(await self._dirs(main))})
-        return self.async_show_form(
-            step_id="unterordner",
-            data_schema=_suggest(schema, {CONF_PROF_SUB: suggested}),
-            description_placeholders={"hauptordner": "/".join(main)},
-        )
+        return await self._step_one("reconfigure", user_input, dict(sub.data))
